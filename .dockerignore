@@ -22,7 +22,7 @@
 **/Dockerfile
 **/Thumbs.db
 .github/
-docs/
+symfony-docker-docs/
 public/bundles/
 tests/
 var/

@@ -1,3 +1,9 @@
+# Server name
+SERVER_NAME = localhost
+MERCURE_PUBLIC_URL=http://localhost/.well-known/mercure
+HTTP_PORT = 8000
+PROJECT_NAME = jimi-and-the-wolf
+
 # Executables (local)
 DOCKER_COMP = docker compose
 
@@ -20,6 +26,10 @@ help: ## Outputs this help screen
 ## —— Docker 🐳 ————————————————————————————————————————————————————————————————
 build: ## Builds the Docker images
 	@$(DOCKER_COMP) build --pull --no-cache
+
+dev: ## Run the development server on http://localhost:8000
+	SERVER_NAME=http://$(SERVER_NAME) HTTP_PORT=$(HTTP_PORT) $(DOCKER_COMP) --project-name ${PROJECT_NAME} up -d
+	make npm run dev
 
 up: ## Start the docker hub in detached mode (no logs)
 	@$(DOCKER_COMP) up --detach
@@ -59,3 +69,6 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
+
+npm:
+	$(DOCKER_COMP) exec node npm $(filter-out $@,$(MAKECMDGOALS))
