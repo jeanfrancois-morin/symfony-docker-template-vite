@@ -25,9 +25,9 @@ export default defineConfig({
       },
     },
   },
-  // css: {
-  //   devSourcemap: true
-  // },
+  css: {
+    devSourcemap: true
+  },
   resolve: {
     alias: {
       '@public': '/public',
