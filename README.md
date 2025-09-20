@@ -1,4 +1,4 @@
-# Jimi and the wolf
+# Sf template with Docker, PostgreSQL, and Vite
 
 This is a pedagogical project issued from live coding sessions for PHP and Symfony students.  
 

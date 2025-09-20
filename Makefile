@@ -2,7 +2,7 @@
 SERVER_NAME = localhost
 MERCURE_PUBLIC_URL=http://localhost/.well-known/mercure
 HTTP_PORT = 8000
-PROJECT_NAME = jimi-and-the-wolf
+PROJECT_NAME = spotify-exporter
 
 # Executables (local)
 DOCKER_COMP = docker compose
@@ -14,6 +14,7 @@ PHP_CONT = $(DOCKER_COMP) exec php
 PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP) bin/console
+NPM      = $(DOCKER_COMP) exec node npm
 
 # Misc
 .DEFAULT_GOAL = help
@@ -29,7 +30,7 @@ build: ## Builds the Docker images
 
 dev: ## Run the development server on http://localhost:8000
 	SERVER_NAME=http://$(SERVER_NAME) HTTP_PORT=$(HTTP_PORT) $(DOCKER_COMP) --project-name ${PROJECT_NAME} up -d
-	make npm run dev
+	make npm c='run dev'
 
 up: ## Start the docker hub in detached mode (no logs)
 	@$(DOCKER_COMP) up --detach
@@ -70,5 +71,6 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
-npm:
-	$(DOCKER_COMP) exec node npm $(filter-out $@,$(MAKECMDGOALS))
+npm: ## Run npm, pass the parameter "c=" to run a given command, example: make npm c='install'
+	@$(eval c ?=)
+	@$(NPM) $(c)
